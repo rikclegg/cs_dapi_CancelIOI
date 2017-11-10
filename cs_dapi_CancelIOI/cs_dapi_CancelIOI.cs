@@ -44,7 +44,7 @@ namespace com.bloomberg.ioi.samples
         private static readonly Name SERVICE_OPEN_FAILURE = new Name("ServiceOpenFailure");
         private static readonly Name ERROR_INFO = new Name("ErrorInfo");
 
-        private string d_emsx;
+        private string d_ioi;
         private string d_host;
         private int d_port;
 
@@ -72,7 +72,7 @@ namespace com.bloomberg.ioi.samples
             // and the values to be used by the SessionOptions object
             // to identify IP/port of the back-end process.
 
-            d_emsx = "//blp/ioiapi-beta-request";
+            d_ioi = "//blp/ioiapi-beta-request";
             d_host = "localhost";
             d_port = 8194;
         }
@@ -146,7 +146,7 @@ namespace com.bloomberg.ioi.samples
                 if (msg.MessageType.Equals(SESSION_STARTED))
                 {
                     System.Console.WriteLine("Session started...");
-                    session.OpenServiceAsync(d_emsx);
+                    session.OpenServiceAsync(d_ioi);
                 }
                 else if (msg.MessageType.Equals(SESSION_STARTUP_FAILURE))
                 {
@@ -164,8 +164,8 @@ namespace com.bloomberg.ioi.samples
             {
                 if (msg.MessageType.Equals(SERVICE_OPENED))
                 {
-                    System.Console.WriteLine("EMSX Service opened... Sending request");
-                    sendCancelIOI(session, d_emsx);
+                    System.Console.WriteLine("IOI Service opened... Sending request");
+                    sendCancelIOI(session, d_ioi);
                 }
                 else if (msg.MessageType.Equals(SERVICE_OPEN_FAILURE))
                 {
@@ -210,13 +210,13 @@ namespace com.bloomberg.ioi.samples
             }
         }
 
-        private void sendCancelIOI(Session session, String emsxSvc)
+        private void sendCancelIOI(Session session, String ioiSvc)
         {
-            Service service = session.GetService(emsxSvc);
+            Service service = session.GetService(ioiSvc);
             Request request = service.CreateRequest("cancelIoi");
 
             Element handle = request.GetElement("handle");
-            handle.SetElement("value", "c44a684a-b553-456b-a719-8a5197c44d9e");
+            handle.SetElement("value", "579e9a03-c505-4886-abe7-56e6e5d3cc1d");
 
             System.Console.WriteLine("Sending Request: " + request.ToString());
 
